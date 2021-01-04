@@ -1,0 +1,24 @@
+
+
+CREATE COMPUTE MODULE TASK_PROVIDER_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		  CALL CopyEntireMessage(); 
+		RETURN TRUE;
+	END;
+
+	
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		  DECLARE r1 ROW; 
+		DECLARE ref REFERENCE TO InputRoot.XMLNSC.Employee[>];  
+		  SET r1.values[] = SELECT * FROM Database.ACC_TABLE AS A WHERE A.APP_ID = 4;        
+		SET Environment.variables  = r1;   
+	
+ 		SET OutputRoot.XMLNSC.Response.ID = r1.values.APP_ID ;    
+		SET OutputRoot.XMLNSC.Response.NAME = r1.values.FULL_NAME ; 
+		SET OutputRoot.XMLNSC.Response.PHNO  =  r1.values.PHNO  ;
+		SET OutputRoot.XMLNSC.Response.CITY =  r1.values.CITY  ; 
+		SET OutputRoot.XMLNSC.Response.DESIGNATION  =  r1.values.QUALIFICATION ;     
+	END;
+END MODULE;
